@@ -20,7 +20,8 @@
   tags: ntp
 
 # https://gist.github.com/garethrees/5591027
+# content 끝에 \n을 반드시 포함해야 하는 이유: https://github.com/ansible/ansible/issues/5715
 - name: Set Time Zone
-  copy: content="Asia/Seoul"
+  copy: content="Asia/Seoul\n"
         dest=/etc/timezone
   notify: update timezone
