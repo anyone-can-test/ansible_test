@@ -1,0 +1,9 @@
+---
+# Handler to handle common notifications. Handlers are called by other plays.
+
+
+- name: restart ntp
+  service: name=ntpd state=restarted
+
+- name: update timezone
+  command: dpkg-reconfigure --frontend noninteractive tzdata

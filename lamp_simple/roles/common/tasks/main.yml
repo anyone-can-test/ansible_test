@@ -1,0 +1,26 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+- name: Configure apt proxy
+  template: src=apt_proxy dest=/etc/apt/apt.conf.d/proxy
+  tags: ntp
+
+# For debugging, skip it because it takes long time.
+#- name: Install ntp
+#  apt: name=ntp update_cache=yes
+#  tags: ntp
+
+- name: Configure ntp file
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  tags: ntp
+  notify: restart ntp
+
+- name: Start the ntp service
+  service: name=ntp state=started enabled=yes
+  tags: ntp
+
+# https://gist.github.com/garethrees/5591027
+- name: Set Time Zone
+  copy: content="Asia/Seoul"
+        dest=/etc/timezone
+  notify: update timezone

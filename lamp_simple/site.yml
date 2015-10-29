@@ -1,0 +1,14 @@
+---
+# original source: https://github.com/ansible/ansible-examples
+# This playbook deploys the whole application stack in this site.
+
+
+- name: apply common configuration to all nodes
+  hosts: all
+  remote_user: root
+
+  roles:
+    - common
+
+  environment:
+    http_proxy: http://172.21.81.28:6588
