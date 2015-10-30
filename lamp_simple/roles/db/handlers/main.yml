@@ -1,0 +1,11 @@
+---
+# Handler to handle DB tier notification
+
+
+
+# || /bin/true를 위해서 shell 을 사용해야 한다. command 에서는 적용되지 않는 것 같다.
+- name: restart mysql
+  shell: "{{ item }}"
+  with_items:
+    - mysqladmin shutdown || /bin/true
+    - /usr/bin/mysqld_safe &
