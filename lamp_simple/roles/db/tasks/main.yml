@@ -14,13 +14,20 @@
    - restart mysql
 
 - name: Start Mysql Service
-  shell: echo "hello"
-  notify:
-   - restart mysql
+  shell: /usr/bin/mysqld_safe & 
+  ignore_errors: yes
 
+- name: insert iptables rule
+  lineinfile: dest=/etc/sysconfig/iptables state=present regexp="3306"
+              insertafter="^:OUTPUT " line="-A INPUT -p tcp  --dport 3306 -j  ACCEPT"
+  notify: restart iptables
+
+
+# Both login_password and login_user are required when you are passing credentials. If none are present, the module will attempt to read the credentials from ~/.my.cnf, and finally fall back to using the MySQL default login of root with no password.
+# http://docs.ansible.com/ansible/mysql_db_module.html
 - name: Create Application Database
-  mysql_db: name="hello" state=present
+  mysql_db: name="hello" state=present login_user="root" login_password="root"
 
 - name: Create Application DB User
-  mysql_user: name="hello" password="hello" priv=*.*:ALL host='%' state=present
+  mysql_user: name="hello" password="hello" priv=*.*:ALL host='%' state=present login_user="root" login_password="root"
 

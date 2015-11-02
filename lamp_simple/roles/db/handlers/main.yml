@@ -9,3 +9,7 @@
   with_items:
     - mysqladmin shutdown || /bin/true
     - /usr/bin/mysqld_safe &
+
+
+- name: restart iptables
+  service: name=iptables state=restarted

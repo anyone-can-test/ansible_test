@@ -12,3 +12,10 @@
 
   environment:
     http_proxy: http://172.21.81.28:6588
+
+- name: deploy MySQL and configure the databases
+  hosts: 172.17.0.60
+  remote_user: root
+
+  roles:
+    - db
